@@ -2,23 +2,10 @@ package io.prometheus.cloudwatch;
 
 import io.prometheus.client.Counter;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import software.amazon.awssdk.services.cloudwatch.CloudWatchClient;
-import software.amazon.awssdk.services.cloudwatch.model.Dimension;
-import software.amazon.awssdk.services.cloudwatch.model.GetMetricDataRequest;
-import software.amazon.awssdk.services.cloudwatch.model.GetMetricDataResponse;
-import software.amazon.awssdk.services.cloudwatch.model.Metric;
-import software.amazon.awssdk.services.cloudwatch.model.MetricDataQuery;
-import software.amazon.awssdk.services.cloudwatch.model.MetricDataResult;
-import software.amazon.awssdk.services.cloudwatch.model.MetricStat;
-import software.amazon.awssdk.services.cloudwatch.model.ScanBy;
-import software.amazon.awssdk.services.cloudwatch.model.Statistic;
+import software.amazon.awssdk.services.cloudwatch.model.*;
 
 class GetMetricDataDataGetter implements DataGetter {
 
@@ -26,7 +13,7 @@ class GetMetricDataDataGetter implements DataGetter {
   // https://aws.amazon.com/cloudwatch/pricing/
   private static final int MAX_STATS_PER_BILLED_METRIC_REQUEST = 5;
   private final long start;
-  private final MetricRule rule;
+  private final io.prometheus.cloudwatch.MetricRule rule;
   private final CloudWatchClient client;
   private final Counter apiRequestsCounter;
   private final Counter metricsRequestedCounter;
@@ -44,7 +31,7 @@ class GetMetricDataDataGetter implements DataGetter {
         .collect(Collectors.joining(","));
   }
 
-  private List<String> buildStatsList(MetricRule rule) {
+  private List<String> buildStatsList(io.prometheus.cloudwatch.MetricRule rule) {
     List<String> stats = new ArrayList<>();
     if (rule.awsStatistics != null) {
       stats.addAll(
@@ -57,7 +44,7 @@ class GetMetricDataDataGetter implements DataGetter {
   }
 
   private List<MetricDataQuery> buildMetricDataQueries(
-      MetricRule rule, List<List<Dimension>> dimensionsList) {
+      io.prometheus.cloudwatch.MetricRule rule, List<List<Dimension>> dimensionsList) {
     List<MetricDataQuery> queries = new ArrayList<>();
     List<String> stats = buildStatsList(rule);
     for (String stat : stats) {
@@ -118,7 +105,7 @@ class GetMetricDataDataGetter implements DataGetter {
   }
 
   private List<GetMetricDataRequest> buildMetricDataRequests(
-      MetricRule rule, List<List<Dimension>> dimensionsList) {
+      io.prometheus.cloudwatch.MetricRule rule, List<List<Dimension>> dimensionsList) {
     Date startDate = new Date(start - 1000L * rule.delaySeconds);
     Date endDate = new Date(start - 1000L * (rule.delaySeconds + rule.rangeSeconds));
     GetMetricDataRequest.Builder builder = GetMetricDataRequest.builder();
@@ -174,7 +161,7 @@ class GetMetricDataDataGetter implements DataGetter {
   GetMetricDataDataGetter(
       CloudWatchClient client,
       long start,
-      MetricRule rule,
+      io.prometheus.cloudwatch.MetricRule rule,
       Counter apiRequestsCounter,
       Counter metricsRequestedCounter,
       List<List<Dimension>> dimensionsList) {

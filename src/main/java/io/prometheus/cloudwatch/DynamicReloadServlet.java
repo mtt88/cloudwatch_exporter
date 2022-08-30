@@ -33,7 +33,7 @@ public class DynamicReloadServlet extends HttpServlet {
       throws ServletException, IOException {
     try {
       collector.reloadConfig();
-    } catch (IOException e) {
+    } catch (Exception e) {
       resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
       resp.setContentType(CONTENT_TYPE);
       try {

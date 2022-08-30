@@ -3,7 +3,6 @@ package io.prometheus.cloudwatch;
 import static io.prometheus.cloudwatch.DimensionSource.DimensionData;
 import static org.junit.Assert.assertEquals;
 
-import io.prometheus.cloudwatch.CachingDimensionSource.DimensionCacheConfig;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +13,8 @@ public class CachingDimensionSourceTest {
 
   @Test
   public void cachedFromDelegate() {
-    DimensionCacheConfig config = new DimensionCacheConfig(Duration.ofSeconds(60));
+    CachingDimensionSource.DimensionCacheConfig config =
+        new CachingDimensionSource.DimensionCacheConfig(Duration.ofSeconds(60));
     FakeDimensionSource source = new FakeDimensionSource();
     DimensionSource sut = CachingDimensionSource.create(source, config);
 

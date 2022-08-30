@@ -5,7 +5,8 @@ import software.amazon.awssdk.services.cloudwatch.model.Dimension;
 
 interface DimensionSource {
 
-  DimensionData getDimensions(MetricRule rule, List<String> tagBasedResourceIds);
+  DimensionData getDimensions(
+      io.prometheus.cloudwatch.MetricRule rule, List<String> tagBasedResourceIds);
 
   class DimensionData {
     private final List<List<Dimension>> dimensions;

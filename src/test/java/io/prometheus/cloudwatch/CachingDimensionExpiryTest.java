@@ -1,9 +1,8 @@
 package io.prometheus.cloudwatch;
 
+import static io.prometheus.cloudwatch.CachingDimensionSource.*;
 import static org.junit.Assert.assertEquals;
 
-import io.prometheus.cloudwatch.CachingDimensionSource.DimensionCacheKey;
-import io.prometheus.cloudwatch.CachingDimensionSource.DimensionExpiry;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;

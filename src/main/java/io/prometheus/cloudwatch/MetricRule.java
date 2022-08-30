@@ -17,7 +17,7 @@ class MetricRule {
   List<String> awsDimensions;
   Map<String, List<String>> awsDimensionSelect;
   Map<String, List<String>> awsDimensionSelectRegex;
-  CloudWatchCollector.AWSTagSelect awsTagSelect;
+  TagSelect awsTagSelect;
   String help;
   boolean cloudwatchTimestamp;
   boolean useGetMetricData;
